@@ -1,0 +1,1057 @@
+
+ 
+
+ using a typical REST API
+endpoint as our first choice we have two
+endpoints we can use which is the
+author's endpoint to get all the authors
+and then a separate endpoint to get all
+the books for a particular author
+so the first thing that we need to do is
+we need to access that authors endpoint
+to get back a list of all the authors
+and with that list of authors we're
+going to be getting back the ID of the
+authors and the name which is what we
+want for our application
+ but we're also
+going to be getting back a bunch of
+extra information such as where that
+author lives and how old that author is
+which we don't
+really want for this page that were displaying 
+
+then
+once we have that list of authors we can
+take the idea of each author so for each
+author we get back we can call our
+server again to get the books for that
+particular author and then so if we have
+five authors we get back we're going to
+be having to call the API five more
+times to get the books for those authors
+and each time we call that we're going
+to be getting all the information back
+for the books not just the name even
+though all we really want is the name so
+by using a REST API in order to access
+our data like we're used to we have to
+call our API many more times than we
+really want to and we also have to get a
+bunch of extra information back from our
+server which we don't actually need now
+let's look at how graph QL will handle
+this situation with graph QL what you do
+is you compose a query of exactly the
+data that you want so you tell graph
+tool that you want to get a list of all
+the authors you want their name and you
+want to get all the books for each of
+the authors and the books names you tell
+graph QL that single query which is
+going to be very small you send it to
+the server and the server which is your
+graph QL server is going to parse that
+query and send you back exactly that
+information so with just one query to
+the server you're going to be getting
+back a list of all of the authors and
+their names and a list of all of their
+books and their names and no extra
+information you get only the information
+that you ask for it and you can get as
+much information as you need or as
+little information as you need this is
+incredibly powerful and is the real
+reason that graph QL is so important and
+picking up so much speed the ability to
+be able to not only query specific
+information but also query nested
+information such as books inside of
+those authors without having to call
+your server more than one time is
+absolutely amazing and this is really
+just the beginning of the power that
+graph QL has since it's built just on
+the normal HTTP protocol that we already
+used we don't have to use anything new
+or fancy in order to get started with
+graphic ul which is amazing there's also
+plenty of different libraries out there
+for tons of different languages that
+implement all of the graph QL features
+for you in an easy-to-use way in our
+example later we're going to take a look
+at building a graph QL server using
+node.js and Express another thing that
+graph QL does that's incredibly power
+is it allows you to mutate data on your
+server so it allows you to create update
+and delete data just like you could do
+an arrest API and the same thing applies
+to these create delete and updates as
+with your actual get queries you can
+specify exactly what you want to be
+returned from those queries let's say
+that you're going to be adding a book to
+a server you can say that you want to
+add a book you give it the name you give
+it the author you give it all the other
+information you need to but let's say
+all you really want back is the name of
+the book so you tell it I want you to
+add a book with all this information and
+then just return back the name for me so
+then it will return you the name of that
+new book and maybe you want the idea as
+well sort of return you the name and the
+ID of that newly created book this is
+incredibly powerful
+it also has support for errors so you
+can do error handling outside of
+graphical and really it does everything
+that a REST API can do except for it
+makes it so much easier for the
+front-end to work with and it makes it
+so much lighter weight since you only
+have to access the server one time each
+time you need something instead of
+multiple times to get all the
+information you need so now that we have
+a basic understanding of what graph QL
+is and why it's so powerful 
+
+
+
+let's get started b	y building out a node.js Express
+application using graph QL what we're
+going to take that book and author
+example and fully implement the server
+side of it to get started the very first
+thing that we needed to do is actually
+set up our Express server which is just
+going to be a very basic Express server
+the first thing that we need to do is to
+run NPM in it in order to create our
+different package JSON files and we just
+hit enter a bunch of times here to get
+all the default values and as you can
+see we now have a package JSON file with
+all of our information inside of it then
+in here I'm just going to change our
+main file to be called server digest
+because I prefer the name server / index
+for this instance next we need to
+install all the dependencies that we're
+going to be using just type in NPM I and
+then we need to put the different names
+of our dependencies in our case we're
+going to be using Express we're going to
+be using Express graph QL which just
+lets just use graphical and Express
+easily and we're also going to install
+dependency called graph QL which is
+going to give us all the different
+functionality that we need in order to
+use graph QL
+and if we hit enter let that run it's
+going to install all these different
+dependencies and add them to our package
+JSON file and now that we have all those
+installed there's one last dependency
+that we're going to stall to make
+working locally easier and that's called
+node mon-sol npm install and we want to
+just do this as a dev dependency so we
+just say save dev and we can put in here
+node Mon which will allow us to reload
+our server whenever we save our files
+instead of having to reload our server
+manually by stopping it and starting it
+and at once that all finishes installing
+we're going to create a single script
+here in order to run our node bin server
+so if we can just type in here dev start
+since this is what we're going to use
+when we do development we can just say
+dev start and we just want to run node
+mung server Jas now that we have that
+setup we can create our server dot JSON
+file over here now we have our server JS
+file we can set up just the most basic
+Express application so we're going to
+get expressed here from our packages and
+then we're going to get the app part of
+Express so we just call that Express
+function to get our app and we just need
+to tell our app that we want it to
+listen on port 5,000 and then just so
+that we know that this is actually
+running let's just put a simple function
+in here that just says that the server
+is running and now if we save that and
+run the command that we created by coin
+NPM run dev start since we called the
+dev start and we hit enter you should
+see that it says that our server is
+running and if we go to localhost 5,000
+you'll see that it says cannot get
+indexed because we don't actually have
+any routes credit but we do know that
+our server is now running
+so let's actually work on adding graph
+QL into our server in order to do that
+we need to require graph QL so we need
+to require our Express graph QL which we
+imported earlier with our package JSON
+so we just type that in Express graph QL
+just like that and we can actually add a
+route for our application so we can just
+say app dot use and we want this to be
+at grab QL so when we go to / graphic ul
+localhost
+thousands / graphic well it's going to
+run the code in here we can just say
+Express graph QL and in here we just
+leave an empty object for now since we
+don't have anything actually to pass to
+it other than the fact that we want to
+say graphic you'll graphical we want to
+pass true to this which is going to give
+us an actual user interface to access
+our graph QL server without having to
+manually call it through something like
+postman now if we save that and go to
+that URL graph QL you'll see that we get
+an error saying that we need a schema
+for our graph QL and the way that graph
+QL knows which data to access based on
+the query that you send it is you have
+to define a schema of how all of your
+data interacts together and that schema
+is what we need to pass into our Express
+graph QL function so that our Express
+craftool knows what our actual graph QL
+data looks like so let's just create a
+dummy query here to see how this works
+so in order to create a query we
+actually need to import a few things
+into our application so if we go up here
+we can say that we want to import a few
+different things from the library of
+graph QL that we mentioned earlier and
+we want to import our schema first of
+all so there's an object called graph QL
+schema and we also want to import the
+object type because in graph QL
+everything is actually strongly typed so
+an object type just allows you to create
+a dynamic object full of a different
+other different other types so in here
+we can just say graph QL object type and
+that'll be an actual object type that we
+can import and now we need to create a
+new schema so we'll just call our schema
+here equal to a new graph QL schema and
+in here is where we define our actual
+schema so like I said we're just going
+to be creating a dummy schema here so
+the first thing we want to do is define
+the query section which is essentially
+the getting of data so we'll define the
+query parameter here and we want to set
+this query here equal to a new graph QL
+object type and inside of this object
+type we're just going to give it a name
+of hello world and in here we need to
+define the fields that hello world
+returns so we can save fields and we
+just set this to a function here so
+we'll just create a function
+and inside of this function we actually
+return the different fields that we want
+to return so in our case we're just
+going to be returning an object and this
+is going to have a message here and this
+message is actually going to be an
+object which is going to define the type
+of our message so we just put an object
+in here and we know that we want the
+type of this to be a string so we need
+to actually import the graph QL string
+object so up here we can just say graph
+QL string import that and then we can
+use that as our type down here for our
+message
+so now graph QL knows that our hello
+world object has a message field and
+that message field is going to return a
+string and then lastly we needed to tell
+graph QL where to get this message from
+so in our case we just want to give it a
+static message of hello world and this
+is going to use the resolve section of
+this object which is just going to be a
+function that tells graph Q where to get
+the information from so we just have a
+simple function here and this function
+is just going to return hello world now
+if we actually pass that schema into our
+function down here by saying schema and
+we call that object schema so now if we
+save that and refresh over here you'll
+see that we get this graph QL interface
+over here and you'll notice immediately
+that we get an error saying that the
+name for our hello world does not
+actually work because it contains a
+space which is not valid so we'll just
+remove this space here and resave it and
+if we refresh this you'll see that we no
+longer get any errors in our graph QL
+server and we can actually query our
+graphical server and we can even look at
+the docs over here and as you can see it
+says that we have a single query called
+hello world which returns a message
+that's a string so let's call that query
+we just have to say query and inside of
+our brackets here we want to put what we
+want to query in our case we just want
+to query the message and if we hit run
+you'll see we get message hello world
+back and we can actually remove query
+here because by default graph QL will
+use the query keyword instead of
+actually adding data so if we run this
+again you'll see that we get our message
+back even though we didn't specify that
+said query that is just the default
+and from this very simple example we can
+already kind of dissect how this graph
+QL library works and how we can use it
+to build larger applications so the
+first thing that you see
+here is that we have our schema which
+defines our query section and this query
+section defines all of the different use
+cases that we can use for querying in
+our case this will be authors and books
+in our real application but for now it
+is just a single hello world object next
+inside of each of our different objects
+we have what are called fields which are
+all the different sections of that
+object that we can actually query to
+return data from in our case just a
+single field of message but for a book
+this could be the name of the book the
+ISBN the cover art of the book and so on
+and then we have a resolve function down
+here which is going to be what actual
+information are we returning for this
+field how do we actually get the
+information for this field and return it
+as resolved function also comes with a
+few arguments such as the parent that
+it's being called from and different
+arguments that you pass to your query
+but in our case we don't really need to
+worry about those for this simple
+example but as we can already see from
+just this really simple example we can
+build out pretty much any type of
+objects that we want just by passing it
+the different fields tell me that what
+types those different fields are and
+then resolving those fields to a
+specific type if need be if for example
+our graph QL object is returning an
+object a JSON object the resolve will
+automatically default to that value on
+object so if we have an object with a
+property of message on it we don't
+actually need to put resolve here
+because we resolve were already called a
+message attribute of that object we'll
+see that later on as we dive into this
+book and author example so now that we
+have this finished up with our early
+example let's dive directly into
+creating these author and books example
+the first thing that I'm going to do is
+just paste in some placeholder data that
+we're going to be using in our
+application this is just data for three
+different authors and eight different
+books associated with those three
+different authors and we're there's
+going to be using this in place of
+something like a database because we
+don't actually want to worry about
+hooking up a database for this simple
+application and these two collections of
+data this authors variable and this
+books variable will just be our database
+for this application next we're going to
+want to create what's called a root
+query scope essentially this is just
+going to be the root query that
+everything is going to pull down from
+right now our root query is just this
+single hello world object but as you can
+see we can only
+weary from this hello world object the
+messages field and we want to be able to
+query books authors single books single
+authors and so much more from this route
+query object so we want just one place
+where we can define all the different
+objects that we can query it from our
+graph QL server here so let's remove
+what we have right now and create that
+route query type so we can just say
+create a variable we'll call it route
+query type and this is just going to be
+an object so we can just set it to a new
+graph QL object type and this works just
+like the object type we just created but
+instead of using HelloWorld is the name
+we're just going to give it a name of
+query since this is just our query we
+can give it a description which will
+show up in our documentation over here
+right now it says no description so we
+can just give this a description here of
+route query so we know this is the top
+level and then our root query is where
+we can find our actual fields so we'll
+just pass this a function and the reason
+I'm wrapping this function in
+parentheses that's return here is that I
+don't actually need to add a return
+statement since this will just return
+everything inside of the parentheses
+which is just this single object so it's
+just saving us a little bit of writing
+there and what we want to do is we not
+actually return books from this query so
+we can say we want to return a list of
+books which is going to be this books
+keyword here and we just need to supply
+a different object for this and we need
+to give it a type and in our case books
+is just going to be a kuffs
+accustomed graph QL object type so we
+want to create that graphical object
+type we'll just call it book type but we
+haven't created it yet but this is just
+a placeholder for that type we will be
+trading will then give it a description
+here and we're just going to give this
+the description of a list of books and
+then we need to do resolve for this so
+in our case this resolve is going to be
+extremely straightforward this shows
+going to return that book object that we
+had if you had for example a database
+here you would query the database for
+your books but in our case we're just
+returning that single object and instead
+of actually returning a single book type
+we're returning what's called a list of
+book types so we need to actually import
+the graph QL list object
+so we have graphic you list here and now
+we can use that grab cue list wrap our
+book type inside of it so we just say
+new grab ql list and we've passed it the
+actual type for that list so this is a
+list of book types so now that we have
+our books query defined here let's
+actually defined the book type that
+we'll be using for this query so as we
+already know this book type is just
+going to be a custom object so we can
+call create a variable called the book
+type set it equal to that new graph QL
+object type since this is a custom
+object and in here we need to do the
+same thing we need to give it a name
+which in our case it's just going to be
+called a book give it a description this
+is just going to say this represents a
+book written by an author and we need to
+specify the fields for the book so again
+pass this a function wrapping it in
+those parentheses so we can just return
+that object and in here we need to
+define our fields as you can see we have
+our ID field our name field as well as
+our author field so let's specify those
+now we have ID this is going to be the
+type of graph qo int which we haven't
+actually imported yet and this is just
+saying this is going to be an integer so
+let's import this type up here and one
+other thing we need to import is what's
+called the graph QL non-null and
+essentially this means that you can
+never return a null value for this type
+an integer is always going to be
+supplied it's never going to be null so
+we can actually just wrap this in a new
+graph QL non null actually you don't
+even need the new here so we just said
+graph QL non no graph QL int and that's
+the type of our ID and we don't actually
+need to supply a resolve for our ID
+because as I said earlier since we have
+an object here that already has an ID
+property it'll pull that ID property
+directly from that object so the next
+thing we want to do is add the name in
+here which is going to be very similar
+to the ID but the type in here instead
+is going to be a graphic you'll string
+and again it's going to be non nullable
+so we got the non null
+and that's all we need to do we don't
+need to add a result again for this and
+lastly we have our author ID which is
+going to be exactly the same as our int
+for our ID up here so we can just copy
+and paste that down and there we go we
+have our full book type already defined
+so now that we have our root query type
+which is using our book type we just
+need to create a schema and then use
+that schema so just create a variable
+here called schema we're gonna set it to
+a new graph QL schema and the schema as
+I said it's going to take a query object
+and this is just going to be our root
+query type now if you say that you see
+that we get no errors and if we come
+over here and refresh our page remove
+all this code that we have so we just
+have a blank start you can see our
+documentation Explorer we have this
+query object and inside of here we have
+books which will allow us to get a list
+of books and we can go through and see
+what a book is its integer name author
+ID and so on so let's actually use this
+so as we know we need to put these
+inside of curly braces and all we do is
+say books and then we specified the
+fields for the books we want so let's
+say we just want to get the name of
+every book if we run that you see over
+here we get the name of every single
+book that's in our list right up here
+and as you can see it's the same exact
+list we can also get ID for example and
+we just hit go and you see now we get
+the ID and the name and if we didn't
+want name just remove that hit run and
+there you go now we're just getting IDs
+and the syntax over here for searching
+graphic you'll is very similar to JSON
+like syntax but you're only specifying
+the keys you're not really specifying
+the values of it so as you can see here
+we're saying that we want to get books
+and in the books we want to get all the
+different IDs and we want to get author
+ID for example we can run that in here
+and there we go now we're getting the
+author ID for all the different books
+and it's really powerful but what if we
+wanted to get the author and we wanted
+to get the name of the author for
+example just like this right now our
+server can't actually handle this
+because we don't have an author field on
+books so let's work on adding that into
+our application so all we need to do is
+add another field here that's going to
+be author and we need to give it a type
+and this type is going to be a new type
+this is going to be an author
+type just like we have our book type
+this is going to be an author type and
+since our actual array of data appears
+you can see four books doesn't have an
+author field we need to specify a custom
+resolve for how we get this author so
+let's add our resolve make it a function
+here and this function we just want to
+return here we want to return we want to
+search the authors and we want to find
+the author and we want to find the
+author with the ID from the book but how
+do we get the book that this is being
+called as I mentioned earlier this
+resolve takes a parent property here
+which in our case is just going to be a
+book so this author is inside of this
+book type so this is going to get the
+book passed in here that is being
+queried for this field so we could just
+check when this author ID is equal to
+the book author ID then we know that
+this is the author for the book and now
+what we need to do is create this author
+type so that we can actually return it
+and we're just going to do that exactly
+like we created the book type here I'm
+actually just going to copy this because
+a lot of it is going to be exactly the
+same so we know that our author has an
+ID it has a name it's not going to have
+an author ID and it's not going to have
+an author so we can remove those
+sections for now and we just need to
+change the type here author change the
+name of the variable to be author type
+and we just want to change the
+description because it's going to be
+representing an author of a book and now
+if we save that you'll see that
+everything runs fine over here and if we
+refresh over here you now see that we're
+getting the authors inside of our books
+array and this is where the power of
+graph QL really comes into play all we
+had to do was define this author type
+define this book type and tell the book
+type how to get the actual author from
+the book and there we go our authors are
+being populated and if we don't want
+authors we can just remove that from our
+query and we're no longer getting the
+author data and it no longer has to call
+this function you really start to build
+the think of your data in graph form
+because as you can see when we look at
+our Docs over here the start of our
+graph is this query object and then we
+have a new node for books and this book
+returns
+and in here our book has an author and
+as you can see it kinda just graphs down
+through all of our different objects and
+we can slowly query down to more and
+more specific sections of our
+application but as you can see we don't
+have a query for authorship so let's add
+that author's query in and it's going to
+be incredibly simple we just go to our
+root query and right now we have a books
+query let's just copy that and we'll
+just add in a query here for getting the
+authors and we want the type here to be
+author type instead of book type I'm
+going to get a list of all authors and
+instead of returning books we just
+return authors now if we come in here we
+can query our authors and set up our
+books if I spell it right query authors
+and we want to get the name for example
+and if you run that you see that works
+and the reason is showing it error is I
+just need to refresh our page so that it
+actually knows what the syntax is this
+is just a problem with graphical so now
+you can see we're able to query the
+authors and their names we can put in
+the ID here for example but let's go
+back to our earlier example where we
+said that we wanted to get a list of all
+the authors and a list of all the books
+for each author right now we can't do
+that because if we try to clear in the
+books for example and get the name of
+all the books and we run that you see
+that there's no books field for author
+so let's add that in now we just need to
+go up to our author type here add a new
+field which is going to be called books
+and this field is going to be a list
+type so again we can use that graph QL
+list that we talked about earlier give
+it the book type since we want to have a
+list of books and then we just need to
+pass it a resolved function so pass it
+resolved give it a function definition
+here and this is just going to return
+all the books for the author so again we
+have that parent method in here which is
+just the author since we're inside of
+that author type I just want to return
+so we search our books list filter that
+books list and we just want to get it
+where the books the ID for the author is
+equal to the author ID and this is just
+going to give us a list of all the books
+for the author and now if we save then
+refresh over here you now see that we
+get a list of all of the books
+for each author and that's perfect this
+is one single query that we're running
+here and in a normal rest
+this would require us to run one Curie
+for the authors another query for the
+books for author one author two and
+often three so that would be four
+queries total and it would return us a
+bunch of information that we don't
+actually want such as the ID of the book
+and the author idea of the book but what
+if we want to just get one single author
+instead of getting a list of all the
+authors every time well that's also
+incredibly easy to do with graph QL
+because we can actually pass arguments
+to our graph QL methods here so let's
+look at doing that if we go down to our
+root query here we can just define a new
+query so instead of querying books let's
+say we just want to query a single book
+and this is going to work very similarly
+to books here so I'm just going to copy
+this and paste it down here and we
+aren't returning a list this time we're
+just returning a single book type so we
+can change the description here as well
+to just say a single book and instead of
+returning books here we normally turn
+just a single book based on the argument
+we pass in so in our case this result is
+going to take our parent which in our
+case we don't actually want but the
+second parameter here is arguments and
+we're going to pass in our arguments
+from graphical over here so we wanted to
+find which arguments are valid for our
+query and we do that using the args
+parameter and this again just takes in
+object and this object defines our
+arguments so we want to pass in the ID
+of the book we want to query and we just
+need to give it a type here so we can
+just say the type here is a graph QL int
+and now we've actually defined that this
+book query right here for a single book
+takes one single argument of ID and in
+here we can actually use that ID
+argument to query our books so we can
+just say book stop find we want to get
+the book with that ID so args the ID is
+going to be that ID argument we did find
+right here and this is just going to get
+a single book based on the ID again if
+you had a database you would do database
+queries in order to get this and now if
+we go over here into graphical refresh
+it so that we get our syntax
+highlighting we can query book and we
+just pass an ID in here
+both let's say we want to get the very
+first one ID one and we want to get the
+name of that book we run it we see that
+we get Harry Potter and the Chamber of
+Secrets and if you look up here that is
+the book with an ID of number one and we
+can even get the author of that book so
+we can just say author and we want to
+get the name of that author and it gets
+the name of the author for us perfectly
+fine as you can see we didn't have to
+touch these graphic you'll object types
+here we defined our types of once and
+then we actually use those types in
+various different ways with our
+different queries and that is something
+that makes grab queue all really
+powerful it makes creating end points
+really simple since you don't have to
+spin up new routes and everything to
+create an end point you just create a
+single query field which are going to
+query for that actual object and once
+that objects defined you don't actually
+need to do any hard work to redefine how
+that objects used for the new query you
+just use that object that's already
+defined and we can do this exact same
+thing for authors for getting a single
+author so let's copy this authors down
+and change it for getting a single
+author as we know we no longer need a
+list we can just get a single author
+type change our description here to be a
+single author and we wanted to find our
+arguments so in our case our arguments
+here are just going to be an ID which is
+going to have the type of graph QL int
+and lastly inside of there is all
+function here we just want to find the
+author with that ID so we say author ID
+is equal to RG ID and there we go we've
+created our syntax or our function here
+for crane and author so let's do that
+let's just go author we want ID two for
+example and we want to get their name
+now if we run that you see that we get
+an error and that's because in a result
+function here we actually need to
+specify that we're using the arguments
+and now if we save that and rerun it
+you'll see that we're actually getting
+the author and if we look that is the
+author with the idea of two here which
+is exactly perfect and now Before we
+jump into actually modifying data on the
+server I want to mention one thing about
+how fields is returning a function
+instead of an actual object because as
+you can see all it's doing is returning
+a function that returns an object and
+the reason we can't return
+just an object here instead of a
+function that returns an object is that
+this book type references author type so
+we need book type to be defined before
+author type but author type defines book
+type so we need author type to be
+defined before a book type so if we
+don't have this inside of a function
+here we try to run it you'll see that we
+get an error saying that it can't
+actually find author type because author
+type is after book type so you may think
+ok we'll move off their type to be above
+book type so now book type or author
+type can find book type but if we save
+then you see that we get a new error and
+that error same book types not defined
+and that's because book type is inside
+of author type and they reference each
+other so that's why we use a function so
+that everything can get defined before
+they actually start getting called so
+let's just undo all that back to where
+we were with using functions and now if
+we save that we should get no more
+errors and this should still work
+perfect now we can jump into actually
+modifying our data which is what we use
+mutations for mutations are graphic US
+version of using post put and delete on
+a rest api server so we actually want to
+create a new object type which is going
+to be just like our route query type but
+this is going to be our route mutation
+type because our schema actually down
+here takes what's called a mutation so
+we're gonna pass it our route mutation
+type which we are going to create so
+right below our route query type here
+let's create a new type called route
+mutation type and this again is just
+going to be a graph QL object type lots
+of things in graphic you are just custom
+objects full of different parameters
+such as integer string and so on so
+really is just typing out your different
+objects is what graph QL is all about so
+in here again we want to put a name or
+just call it mutation since it's our
+root of our mutations description it's
+going to be route mutation and then we
+can define the different fields and
+these are essentially the different
+operations that we want to do for our
+different mutations and again we're
+going to pass it a function as I
+mentioned earlier and here first let's
+work on adding a book to our database
+so we can use that as the name of our
+field which is just going to be the name
+that we pass in over here so a set of
+author this would say at book and we
+define this just like any other field so
+we give it a type in our case adding a
+book is going to return a book type for
+us give it a description just say add a
+book and then we want to pass arts
+because we actually need data to pass to
+the server for us to add a book in our
+case we only need two parameters we need
+a name first of all for the what the
+book is going to be called and this is
+going to be a type which is going to be
+a string type but again we don't want
+people to pass in a null value for name
+name needs to be required so we need to
+say that it is not null and we need to
+wrap that inside of that non-normal and
+we want to do the exact same thing for
+the author ID so instead of using name
+here we'll use author ID in a set of
+string an author ID is going to be an
+integer and then our resolve function
+instead of actually querying to return
+data it's going to add data to our list
+so we can say resolve we are going to
+use parent and args here again because
+we want to be able to access that artist
+parameter and then the first thing we
+want to do is we want to create a book
+so we'll create a book object it's going
+to have an ID which is just going to be
+the length of our books array plus 1 if
+you had a database this this would be
+automatically generated so you really
+don't need to worry about this too much
+our name is going to be args dot name
+and our author ID is going to be ours
+author ID if I can spell that properly
+there we go so now we have our book
+created and now we need to add that book
+to our array so we could say books push
+book this you're just going to add that
+book to our array of books already have
+and then we can return that book since
+this is actually returning a book object
+and if we save that refresh graphic
+you'll over here and we try to use that
+function of add book we call add book
+you can see it's not actually here it's
+not actually highlighting add book and
+that's because by default graphical uses
+a query and we want to use a mutation
+now we have our add book
+up here we just passed in our different
+parameters we'll pass in a name for
+example we'll just call it new name and
+one thing to note here is you need to
+use double quotes for specifying strings
+because grab QL uses syntax very similar
+to JSON so single quotes will not
+actually work so we pass it the name
+we're gonna pass it the author ID which
+we'll just use as one for now and then
+what parameter we want to be returned in
+our case we'll just return the name and
+the ID for our book now if we run that
+you should we get an ID of nine and a
+name of new name which if we look up at
+our array over here we see that the ID
+of nine is the next in the list which is
+perfect so now if we go to query all of
+our different books and if we just want
+to get the ID and the name and we run
+that you see that we now get our ninth
+book down here with that new name that
+we specified now as soon as we restart
+our server this is going to be
+disappeared because we're not actually
+persisting to a database but you can see
+how this works for if you wanted to use
+it in a real application with the
+database you wouldn't have to worry
+about that problem of it disappearing so
+now we can do the exact same thing with
+author and it's going to be very similar
+to how we'd used for books so let's just
+copy everything we have for add book but
+instead of calling it add a book we're
+going to call it an author and it's
+going to be an author type it's going to
+add an author we have our name which is
+what we're going to add and we don't
+actually have anything else that we need
+to add for an author and our resolve
+down here is going to look very similar
+but instead of being a book we're going
+to be creating a new author it's going
+to be authors dot length for the ID and
+we don't actually have an author ID for
+our author and we want to add this to
+our authors array instead of to our book
+array and then return that author and
+every go we've created for adding an
+author
+we save it we get no errors and we can
+go in here run the mutation for adding
+an author and if we just refresh you
+will actually get our syntax
+highlighting we want to add it with a
+name and we'll just say new author is
+going to be our name and we want to
+return the name and the ID of that
+author if
+you run it you see that we get that
+author its ID and the name of that
+author and now we can actually query all
+of our authors and we can get the ID and
+name run that and there we go we have
+our fourth author that we just added and
+this even still works if we wanted to
+get the books for example except for
+this new author just doesn't have any
+books so it returns an empty array and
+everything works perfectly fine and this
+works just like a rest tapi would have
+we have the ability to create things
+would have ability to read things and we
+can even add the ability to update
+things which is going to work exactly
+the same as the ads except for you a
+changes to update you have passing an ID
+and then you would do an actual update
+of the instance in the database the
+really great thing though about this
+graphical instance is that it's
+incredibly small this entire thing our
+server including our models is a hundred
+and thirty-five lines and a lot of that
+is taken up up here with the actual data
+that we imported into our application so
+essentially in about a hundred lines
+really fit our entire application code
+for creating a simple authored and book
+API which is incredibly powerful you
+couldn't do this in a REST API in such a
+short amount of space also on the server
+or on the client side you were able to
+query exactly the data that you want to
+in our case we can query just the
+author's ID name and all their books in
+their name in one single query so the
+information being sent to the client is
+so much smaller and so much more
+specific and it's easier to work with
+since you don't have to create a bunch
+of custom endpoints every time you want
+to get a different set of data back you
+just tell the server you want different
+data and it gives it to you
+it just is smart enough to know that and
+that's all the basics of what you can do
+with a graph QL server using these tools
+in this video you can create an
+infinitely large graph QL server that
+can do everything from updating to
+deleting to creating to getting data in
+a much more efficient and faster way
+than a REST API ever could if you guys
+did enjoy this video please make sure to
+check out my other JavaScript related
+videos over here and subscribe to my
+channel for more videos just like this
+thank you guys very much for watching
+and have a good day
