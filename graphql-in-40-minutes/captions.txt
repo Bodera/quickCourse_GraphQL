@@ -1,12 +1,7 @@
 
  
 
- using a typical REST API
-endpoint as our first choice we have two
-endpoints we can use which is the
-author's endpoint to get all the authors
-and then a separate endpoint to get all
-the books for a particular author
+
 so the first thing that we need to do is
 we need to access that authors endpoint
 to get back a list of all the authors

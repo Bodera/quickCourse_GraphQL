@@ -24,5 +24,11 @@ Imagine that you have an application that has books and authors as your two main
   - id
   - Name
 
+- - - -
+
+Using a typical REST API endpoint as our first choice, we have two endpoints that we can use: the author's endpoint to get all the authors, and then a separate endpoint to get all the books from a particular author. Illustration provided below.
+
+![Slide 01](WDS_Slides/sld-01.png)
+
 
 
