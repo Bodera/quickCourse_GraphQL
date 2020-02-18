@@ -66,7 +66,7 @@ And now that we have a basic understanding of what GraphQL is and why it is so p
 
 ### Getting your hands dirty
 
-To get started the very first thing that we needed to do is actually set up our webserver which is just going to be a very basic Express server.
+To get started the very first thing that we needed to do is actually set up our webserver which is just going to be a very basic Express server. The full code is provided on a different repository which can be accessed by clicking [here](https://github.com/Bodera/learnPath_JavaScript/tree/master/GraphQL_Demos/Authors-and-Books).
 
 * Initialize a Node.js project
 ```bash
@@ -82,6 +82,36 @@ $ npm i express express-graphql graphql
 ```bash
 $ npm i --save-dev nodemon
 ```
+
+* Make sure to add a `devStart` script (or give it other name) into the `package.json` file.
+```json
+{
+    ...
+    "main": "server.js",
+    "scripts": {
+      "devStart": "nodemon server.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "graphql",
+      "express"
+    ],
+    ...
+}
+```
+
+* Start coding the `server.js` file.
+
+```javascrit
+
+```
+
+
+
+
+
+
+
 
 
 
