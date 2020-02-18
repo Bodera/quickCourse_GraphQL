@@ -1,12 +1,12 @@
 ## Learn GraphQL in 40 minutes
 
-We will build a simple server-side API using GraphQL together with Node.js, the original tutorial was presented [here](https://youtu.be/ZQL7tL2S0oQ). Here are the explanations and transcriptions, a few code is included on but the working software developed is in a different repo, [click here]() to go check it yourself.
+We will build a simple server-side API using GraphQL together with Node.js, the original tutorial was presented [here](https://youtu.be/ZQL7tL2S0oQ). Here are the explanations and transcriptions, a few code is included on but the working software developed is in a different repo, [click here](https://github.com/Bodera/learnPath_JavaScript/tree/master/GraphQL_Demos/Authors-and-Books) to go check it yourself.
 
 ### A few words about what GraphQL is
 
 If you are completely new to GraphQL you may be thinking that this is a brand new big complex thing, but in fact all GraphQL is a specific way of using tools that we already have. It is just a specification created around HTTP to obtain and receive resources from a server.
 
-Usually you will work on something like REST when interacting with a server, and RESTful endpoints with the HTTP verbs (__POST__, __GET, DELETE and UPDATE), all of these fun things to perform HTTP requests using REST. But GraphQL abstracts the whole idea of REST and all those different endpoints and provides a single endpoint, and the way you determine what data you retrieve from that endpoint is based on the query that you send to it, instead of the endpoint you send the data to. Now, let's look at an example of how a GraphQL query works compared to a REST query to get a better idea of the difference between the two.
+Usually you will work on something like REST when interacting with a server, and RESTful endpoints with the HTTP verbs (__POST__, __GET__, __DELETE__ and __UPDATE__), all of these fun things to perform HTTP requests using REST. But GraphQL abstracts the whole idea of REST and all those different endpoints and provides a single endpoint, and the way you determine what data you retrieve from that endpoint is based on the query that you send to it, instead of the endpoint you send the data to. Now, let's look at an example of how a GraphQL query works compared to a REST query to get a better idea of the difference between the two.
 
 ### Spike user story
 
