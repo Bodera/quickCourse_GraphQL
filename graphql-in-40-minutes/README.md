@@ -68,17 +68,17 @@ And now that we have a basic understanding of what GraphQL is and why it is so p
 
 To get started the very first thing that we needed to do is actually set up our webserver which is just going to be a very basic Express server. The full code is provided on a different repository which can be accessed by clicking [here](https://github.com/Bodera/learnPath_JavaScript/tree/master/GraphQL_Demos/Authors-and-Books).
 
-* Initialize a Node.js project
+* Initialize a Node.js project.
 ```bash
 $ npm init
 ```
 
-* Install the necessary dependencies
+* Install the necessary dependencies.
 ```bash
 $ npm i express express-graphql graphql
 ```
 
-* Configure nodemon
+* Configure nodemon.
 ```bash
 $ npm i --save-dev nodemon
 ```
@@ -102,16 +102,91 @@ $ npm i --save-dev nodemon
 
 * Start coding the `server.js` file.
 
-```javascrit
-
+```bash
+$ touch server.js
 ```
 
+```javascrit
+const express = require('express')
+const app = express()
 
+app.listen(8083, () => console.log('Server is up!'))
+```
 
+As output for:
 
+```bash
+$ npm run devStart
+```
 
+You must get a display on the console like:
 
+```bash
+Server is up!
+```
 
+* Adding a GraphQL IDE instance to our server. This is going to give us an user interface to access our GraphQL server without having to manually call it through some GraphQL/REST client.
 
+```javascrit
+//...
+//still the same
 
+const expressGraphQL = require('express-graphql')
 
+app.use(
+  'graphql',
+  expressGraphql({
+    graphiql: true
+  })
+)
+//still the same
+//...
+```
+
+This returns an error when we access the `/graphql` endpoint:
+
+```bash
+{"errors":[{"message":"GraphQL middleware options must contain a schema."}]}
+```
+
+That's because the way that GraphQL knows which data to access is based on the query that you send, so you have to define a schema of how all of your data interacts together and that schema is what we need to pass into our Express GraphQL function, so that our Express GraphQL tool knows how our graphQL data looks like.
+
+Change the `server.js` once more.
+
+```javascript
+//...
+//still the same
+
+const {
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLString
+} = require('graphql')
+
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'SimpleDemonstration',
+    fields: () => ({
+      message: { 
+        type: GraphQLString,
+        resolve: () => 'Grretings from GraphQL side!'  
+      }
+    })
+  })
+})
+
+app.use(
+  '/graphql',
+  expressGraphQL({
+    schema: schema,
+    graphiql: true
+  })
+)
+
+//...
+//still the same
+```
+
+And you must be able to access the GraphiQL interface.
+
+![GraphqQL](https://blog.pusher.com/wp-content/uploads/2018/03/getting-started-with-graphql-in-laravel-graphiql_preview.png)
