@@ -181,7 +181,7 @@ const schema = new GraphQLSchema({
     fields: () => ({
       message: { 
         type: GraphQLString,
-        resolve: () => 'Grretings from GraphQL side!'  
+        resolve: () => 'Greetings from GraphQL side!'  
       }
     })
   })
@@ -224,7 +224,7 @@ Your output must be like this:
 ```json
 {
   "data": {
-    "message": "Grretings from GraphQL side!"
+    "message": "Greetings from GraphQL side!"
   }
 }
 ```
@@ -239,6 +239,35 @@ But if you run only this:
 You will notice that the output is the same. So we can infer that, by default, when no keyword is provided GraphQL uses the `query` keyword.
 
 - - - -
+
+* This simple example is enough to allow us to dissect how the `graphql` library works and how to use it properly.
+
+First we have to define a schema:
+
+```javascript
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'SimpleDemonstration',
+    fields: () => ({
+      message: { 
+        type: GraphQLString,
+        resolve: () => 'Greetings from GraphQL side!'  
+      }
+    })
+  })
+})
+```
+
+In this schema we've defined our query section, that in turn defines all the different use cases for querying, in this case we have our `SimpleDemonstration` object. Inside this objects we have the `fields` property, wich represents the different sections of the object, and these sections are what we will use to actually perfom the queries. So the object `SimpleDemonstration` has a `field` named __message__ which is a String and then the returned value from the `resolve()` function will be a simple phrase.
+
+But `resolve()` also comes with arguments: `parent` and `args`. We will learn how to use then as far we evolve our demo application.
+
+- - - -
+
+__Read this paragraph before continue coding!__ This tutorial will not cover database integration, but is important for you learn and test it, so I recommend that you to learn how to work with relational DBMS and non-relational DBMS for you implement these features in the future (I suggest Hasura and Prisma, but of course, you can try native drivers, query builders or ORM's when gaining confidence).
+
+* Let's add some mock data.
+
 
 
 

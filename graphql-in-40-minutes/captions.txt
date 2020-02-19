@@ -1,22 +1,5 @@
- so let's call that query
-we just have to say query and inside of
-our brackets here we want to put what we
-want to query in our case we just want
-to query the message and if we hit run
-you'll see we get message hello world
-back and we can actually remove query
-here because by default graph QL will
-use the query keyword instead of
-actually adding data so if we run this
-again you'll see that we get our message
-back even though we didn't specify that
-said query that is just the default
-and from this very simple example we can
-already kind of dissect how this graph
-QL library works and how we can use it
-to build larger applications so the
-first thing that you see
-here is that we have our schema which
+
+which
 defines our query section and this query
 section defines all of the different use
 cases that we can use for querying in
