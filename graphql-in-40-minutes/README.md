@@ -68,20 +68,28 @@ And now that we have a basic understanding of what GraphQL is and why it is so p
 
 To get started the very first thing that we needed to do is actually set up our webserver which is just going to be a very basic Express server. The full code is provided on a different repository which can be accessed by clicking [here](https://github.com/Bodera/learnPath_JavaScript/tree/master/GraphQL_Demos/Authors-and-Books).
 
+- - - -
+
 * Initialize a Node.js project.
 ```bash
 $ npm init
 ```
+
+- - - -
 
 * Install the necessary dependencies.
 ```bash
 $ npm i express express-graphql graphql
 ```
 
+- - - -
+
 * Configure nodemon.
 ```bash
 $ npm i --save-dev nodemon
 ```
+
+- - - -
 
 * Make sure to add a `devStart` script (or give it other name) into the `package.json` file.
 ```json
@@ -99,6 +107,8 @@ $ npm i --save-dev nodemon
     ...
 }
 ```
+
+- - - -
 
 * Start coding the `server.js` file.
 
@@ -124,6 +134,8 @@ You must get a display on the console like:
 ```bash
 Server is up!
 ```
+
+- - - -
 
 * Adding a GraphQL IDE instance to our server. This is going to give us an user interface to access our GraphQL server without having to manually call it through some GraphQL/REST client.
 
@@ -187,6 +199,51 @@ app.use(
 //still the same
 ```
 
-And you must be able to access the GraphiQL interface.
+The `resolve()` function is responsable to tell GraphQL where to get the information from.
+
+> GraphQL is strongly-typed. Given a query, tooling can ensure that the query is both syntactically correct and valid within the GraphQL type system before execution, i.e. at development time, and the server can make certain guarantees about the shape and nature of the response. This makes it easier to build high quality client tools. [This good article](https://reactjs.org/blog/2015/05/01/graphql-introduction.html)
+
+Now you must be able to access the GraphiQL interface.
 
 ![GraphqQL](https://blog.pusher.com/wp-content/uploads/2018/03/getting-started-with-graphql-in-laravel-graphiql_preview.png)
+
+You can even look at the `docs` section on the right top corner over the screen of GraphiQL. Click on it. This action will expand the documentation explorer, where you are able to navigate the different GraphQL schemas that exists in your application. At this point you have a single <span style="color:red">query</span> named <span style="color:yellow">SimpleDemonstration</span>, if you click on it you will down a level and see what fields are contemplated, there is only a field <span style="color:blue">message</span> which is a <span style="color:yellow">String</span>.
+
+- - - -
+
+* Run your first GraphQL query by writing the statement below on GraphiQL before hitting the hotkey `Ctrl`+`Enter` for run the statement.
+
+```qraphql
+query {
+  message
+}
+```
+
+Your output must be like this:
+
+```json
+{
+  "data": {
+    "message": "Grretings from GraphQL side!"
+  }
+}
+```
+
+But if you run only this:
+```graqhql
+{
+  message
+}
+```
+
+You will notice that the output is the same. So we can infer that, by default, when no keyword is provided GraphQL uses the `query` keyword.
+
+- - - -
+
+
+
+
+
+
+
+
