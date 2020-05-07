@@ -1,8 +1,10 @@
-## Learn GraphQL in 40 minutes
+# Learn GraphQL in 40 minutes
 
 We will build a simple server-side API using GraphQL together with Node.js, the original tutorial was presented [here](https://youtu.be/ZQL7tL2S0oQ). Here are the explanations and transcriptions, a few code is included on but the working software developed is in a different repo, [click here](https://github.com/Bodera/learnPath_JavaScript/tree/master/GraphQL_Demos/Authors-and-Books) to go check it yourself.
 
-### A few words about what GraphQL is
+A most robust similar tutorial is available at the [Apollo GraphQL Fullstack repo](https://github.com/apollographql/fullstack-tutorial).
+
+## A few words about what GraphQL is
 
 If you are completely new to GraphQL you may be thinking that this is a brand new big complex thing, but in fact all GraphQL is a specific way of using tools that we already have. It is just a specification created around HTTP to obtain and receive resources from a server.
 
@@ -26,7 +28,6 @@ Imagine that you have an application that has books and authors as your two main
   - Birth date
   - Location
   
-
 - - - -
 
 Using a typical REST API endpoint as our first choice, we have two endpoints that we can use: the author's endpoint to get all the authors, and then a separate endpoint to get all the books from a particular author.
@@ -39,12 +40,11 @@ Once we have this list of authors, we can have the idea that, for each returning
 
 ![Slide 02](WDS_Slides/sld-02.png)
 
-
 You can see that using a REST API to access our data as we are used to, we need to call our API a lot more times than we really want to and we also need to get a lot of extra information back to our server that we don't really need.
 
 - - - -
 
-Now let's see how GraphQL will handle this situation. With GraphQL, what you do is compose a query with exactly the data you want, to inform the GraphQL tool that you want to get a list of all authors (including their names) and also you want to get all books for each one authors (including the books name) you tell GraphQL in a single query, that it will be very small, and then send it to the server, then your GraphQL server will analyze that query and send back exactly that information. 
+Now let's see how GraphQL will handle this situation. With GraphQL, what you do is compose a query with exactly the data you want, to inform the GraphQL tool that you want to get a list of all authors (including their names) and also you want to get all books for each one authors (including the books name) you tell GraphQL in a single query, that it will be very small, and then send it to the server, then your GraphQL server will analyze that query and send back exactly that information.
 
 ![Slide 03](WDS_Slides/sld-03.png)
 
@@ -54,7 +54,7 @@ So, with just one query to the server, you will receive a list of all the author
 
 - - - -
 
-This is incredibly powerful and is the real reason why GraphQL is relevant, by increasing the query speed. Besides that, it has the ability to not only query specific information, but also nested information, such as books by these authors. 
+This is incredibly powerful and is the real reason why GraphQL is relevant, by increasing the query speed. Besides that, it has the ability to not only query specific information, but also nested information, such as books by these authors.
 
 Without having to call the server more than once, is enough to make it absolutely incredible and this is just the beginning of the power that GraphQL has, since it's  built only with the normal HTTP protocol which we already use, we don’t need to use anything new or sophisticated to start using GraphQL, and that is very cool.
 
@@ -70,28 +70,35 @@ To get started the very first thing that we needed to do is actually set up our 
 
 - - - -
 
-* Initialize a Node.js project.
+- Initialize a Node.js project.
+
 ```bash
 $ npm init
+<creates a node.js project>
 ```
 
 - - - -
 
-* Install the necessary dependencies.
+- Install the necessary dependencies.
+
 ```bash
 $ npm i express express-graphql graphql
+<collects metapackages>
 ```
 
 - - - -
 
-* Configure nodemon.
+- Configure nodemon.
+
 ```bash
 $ npm i --save-dev nodemon
+<Installs nodemon as development dependency>
 ```
 
 - - - -
 
-* Make sure to add a `devStart` script (or give it other name) into the `package.json` file.
+- Make sure to add a `devStart` script (or give it other name) into the `package.json` file.
+
 ```json
 {
     ...
@@ -110,10 +117,11 @@ $ npm i --save-dev nodemon
 
 - - - -
 
-* Start coding the `server.js` file.
+- Start coding the `server.js` file.
 
 ```bash
 $ touch server.js
+<Creates a file named server.js>
 ```
 
 ```javascrit
@@ -127,6 +135,7 @@ As output for:
 
 ```bash
 $ npm run devStart
+<Execute the script devStart present at our package.json file>
 ```
 
 You must get a display on the console like:
@@ -137,7 +146,7 @@ Server is up!
 
 - - - -
 
-* Adding a GraphQL IDE instance to our server. This is going to give us an user interface to access our GraphQL server without having to manually call it through some GraphQL/REST client.
+- Adding a GraphQL IDE instance to our server. This is going to give us an user interface to access our GraphQL server without having to manually call it through some GraphQL/REST client.
 
 ```javascrit
 //...
@@ -179,7 +188,7 @@ const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'SimpleDemonstration',
     fields: () => ({
-      message: { 
+      message: {
         type: GraphQLString,
         resolve: () => 'Greetings from GraphQL side!'  
       }
@@ -207,11 +216,11 @@ Now you must be able to access the GraphiQL interface.
 
 ![GraphqQL](https://blog.pusher.com/wp-content/uploads/2018/03/getting-started-with-graphql-in-laravel-graphiql_preview.png)
 
-You can even look at the `docs` section on the right top corner over the screen of GraphiQL. Click on it. This action will expand the documentation explorer, where you are able to navigate the different GraphQL schemas that exists in your application. At this point you have a single <span style="color:red">query</span> named <span style="color:yellow">SimpleDemonstration</span>, if you click on it you will down a level and see what fields are contemplated, there is only a field <span style="color:blue">message</span> which is a <span style="color:yellow">String</span>.
+You can even look at the `docs` section on the right top corner over the screen of GraphiQL. Click on it. This action will expand the documentation explorer, where you are able to navigate the different GraphQL schemas that exists in your application. At this point you have a single __query__ named SimpleDemonstration, if you click on it you will down a level and see what fields are contemplated, there is only a field __message__ which is a String.
 
 - - - -
 
-* Run your first GraphQL query by writing the statement below on GraphiQL before hitting the hotkey `Ctrl`+`Enter` for run the statement.
+- Run your first GraphQL query by writing the statement below on GraphiQL before hitting the hotkey `Ctrl`+`Enter` for run the statement.
 
 ```qraphql
 query {
@@ -230,7 +239,8 @@ Your output must be like this:
 ```
 
 But if you run only this:
-```graqhql
+
+```javascript
 {
   message
 }
@@ -240,7 +250,7 @@ You will notice that the output is the same. So we can infer that, by default, w
 
 - - - -
 
-* This simple example is enough to allow us to dissect how the `graphql` library works and how to use it properly.
+- This simple example is enough to allow us to dissect how the `graphql` library works and how to use it properly.
 
 First we have to define a schema:
 
@@ -249,7 +259,7 @@ const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'SimpleDemonstration',
     fields: () => ({
-      message: { 
+      message: {
         type: GraphQLString,
         resolve: () => 'Greetings from GraphQL side!'  
       }
@@ -266,13 +276,104 @@ But `resolve()` also comes with arguments: `parent` and `args`. We will learn ho
 
 __Read this paragraph before continue coding!__ This tutorial will not cover database integration, but is important for you learn and test it, so I recommend that you to learn how to work with relational DBMS and non-relational DBMS for you implement these features in the future (I suggest Hasura and Prisma, but of course, you can try native drivers, query builders or ORM's when gaining confidence).
 
-* Let's add some mock data.
+- Let's add some mock data.
 
+```javascript
+//...
+//still the same
 
+const authors = [
+  {id: 1, name: 'Agatha Christie', birth_date: '15/09/1890', nationality: 'British'},
+  {id: 2, name: 'Mikhail Bulgakov', birth_date: '15/05/1891', nationality: 'Ukrainian'},
+  {id: 3, name: 'Beatrix Potter', birth_date: '28/07/1866', nationality: 'British'},
+  {id: 4, name: 'Jeffrey Archer', birth_date: '15/04/1940', nationality: 'British'},
+  {id: 5, name: 'Stephen Covey', birth_date: '24/10/1932', nationality: 'American'},
+  {id: 6, name: 'Eric Blair', birth_date: '25/06/1903', nationality: 'British'},
+  {id: 7, name: 'Winston Churchill', birth_date: '30/11/1874', nationality: 'British'},
+  {id: 8, name: 'Adolfo Caminha', birth_date: '29/05/1867', nationality: 'Brazilian'},
+  {id: 9, name: 'Machado de Assis', birth_date: '21/06/1839', nationality: 'Brazilian'}
+]
 
+const books = [
+  {id: 1, title: 'And Then There Were None', authorId: 1},
+  {id: 2, title: 'The Moving Finger', authorId: 1},
+  {id: 3, title: 'Mrs McGinty\'s Dead', authorId: 1},
+  {id: 4, title: 'The Master and Margarita', authorId: 2},
+  {id: 5, title: 'Morphine', authorId: 2},
+  {id: 6, title: 'The Sly Old Cat', authorId: 3},
+  {id: 7, title: 'The Tale of the Pie and the Patty-Pan', authorId: 3},
+  {id: 8, title: 'Kane and Abel', authorId: 4},
+  {id: 9, title: 'The 7 Habits of Highly Effective People', authorId: 5},
+  {id: 10, title: 'The 8th Habit', authorId: 5},
+  {id: 11, title: 'Nineteen Eighty-Four', authorId: 6},
+  {id: 12, title: 'Animal Farm', authorId: 6},
+  {id: 13, title: 'The Second World War', authorId: 7},
+  {id: 14, title: 'A History of the English-Speaking Peoples', authorId: 7},
+  {id: 15, title: 'Esaú e Jacó', authorId: 8},
+  {id: 16, title: 'Quincas Borba', authorId: 8},
+  {id: 17, title: 'O Alienista', authorId: 8},
+  {id: 18, title: 'Memorial de Aires', authorId: 8},
+  {id: 19, title: 'O Bom-Crioulo', authorId: 9},
+  {id: 20, title: 'A Normalista', authorId: 9}
+]
 
+//...
+//still the same
+```
 
+- - - -
 
+- Creating root query scopes.
 
+> At the top level of every GraphQL server is a type that represents all of the possible entry points into the GraphQL API, it's often called the Root type or the Query type. [From the documentation](https://graphql.org/learn/execution/#root-fields-resolvers)
 
+The way we work with this concept in JavaScript will be presented below.
 
+Import some more GraphQL types from the `graphql` module.
+
+```javascript
+const {
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLList,
+  GraphQLInt,
+  GraphQLNonNull
+} = require('graphql')
+```
+
+Remove this piece of code:
+
+```javascript
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'SimpleDemonstration',
+    fields: () => ({
+      message: {
+        type: GraphQLString,
+        resolve: () => 'Greetings from GraphQL side!'  
+      }
+    })
+  })
+})
+```
+
+And replace it with:
+
+```javascript
+```
+
+The `GraphQLNonNull` module is useful to us because there are data in our application that must be not empty, and we avoid passing `null` values to our parameters using it.
+
+#### GraphQL mutations
+
+Mutations are the way that GraphQL performs data modification on server like `POST`, `PUT`, and `DELETE` requisitions do in a REST API.
+
+And just like we have our `RootQueryType`, we will create our `RootMutationType`. This is because we've to update our schema to accept mutations like this:
+
+```javascript
+const schema = new GraphQLSchema({
+  query: RootQueryType,
+  mutation: RootMutationType
+})
+```

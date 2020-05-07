@@ -515,16 +515,9 @@ we save that we should get no more
 errors and this should still work
 perfect now we can jump into actually
 modifying our data which is what we use
-mutations for mutations are graphic US
-version of using post put and delete on
-a rest api server so we actually want to
-create a new object type which is going
-to be just like our route query type but
-this is going to be our route mutation
-type because our schema actually down
-here takes what's called a mutation so
-we're gonna pass it our route mutation
-type which we are going to create so
+mutations for 
+
+so
 right below our route query type here
 let's create a new type called route
 mutation type and this again is just
